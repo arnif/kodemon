@@ -1,10 +1,15 @@
 var elasticsearch = require('elasticsearch');
 
+var elastic;
+
 module.exports = {
-  client: function() {
-    return new elasticsearch.Client({
+  setClient: function() {
+    elastic = new elasticsearch.Client({
       host: 'localhost:9200',
       log: 'trace'
     });
+  },
+  getClient: function() {
+    return elastic;
   }
 };

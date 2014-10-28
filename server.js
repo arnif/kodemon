@@ -7,9 +7,10 @@ var dgram = require("dgram"),
     elasticconf = require('./conf/elasticconf');
 
 
-mongoose.connect('mongodb://localhost/kodemon'); // connect to our database
+mongoose.connect('mongodb://arnif.me:28017/kodemon'); // connect to our database
 
-var client = elasticconf.client();
+elasticconf.setClient();
+var client = elasticconf.getClient();
 
 var app = express();
 require('./lib/routes')(app);
