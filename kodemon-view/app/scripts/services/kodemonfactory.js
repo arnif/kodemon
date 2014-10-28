@@ -27,6 +27,20 @@ angular.module('kodemonViewApp')
           deferred.reject();
         });
           return deferred.promise;
+      },
+      getKey: function(name) {
+        var deferred = $q.defer();
+        $http.get('http://localhost:8080/api/key/' + name).success(function(response) {
+          deferred.resolve(response);
+          console.log('response: ' + response);
+        }).error(function() {
+          deferred.reject();
+        });
+        return deferred.promise;
       }
     };
   });
+
+
+//  app.route('/api/key/:name')
+//    .get(api.getKey);

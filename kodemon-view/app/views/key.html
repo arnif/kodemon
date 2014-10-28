@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{name}}</div>
+
+  <!-- Table -->
+    <!-- Table -->
+  <table class="table table-striped table-hover ">
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Execution time</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="k in key">
+                    <td> {{k.token}} </td>
+                    <td> {{k.execution_time}}</td>
+                    <td> {{k.timestamp}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+</div>

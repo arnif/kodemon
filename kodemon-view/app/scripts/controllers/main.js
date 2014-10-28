@@ -8,7 +8,7 @@
  * Controller of the kodemonViewApp
  */
 angular.module('kodemonViewApp')
-  .controller('MainCtrl', function ($scope, KodemonFactory, $http) {
+  .controller('MainCtrl', function ($scope, KodemonFactory) {
 
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
@@ -21,5 +21,5 @@ angular.module('kodemonViewApp')
       console.log(data);
       $scope.keyList = data;
     });
-
+    
   });

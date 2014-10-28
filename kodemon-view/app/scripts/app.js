@@ -27,6 +27,10 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/key/:name', {
+        templateUrl: 'views/key.html',
+        controller: 'KeyCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
