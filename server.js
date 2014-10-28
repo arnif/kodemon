@@ -4,7 +4,8 @@ var dgram = require("dgram"),
     Msg = require('./models/messages'),
     elasticsearch = require('elasticsearch'),
     express = require('express'),
-    elasticconf = require('./conf/elasticconf');
+    elasticconf = require('./conf/elasticconf'),
+    cors = require('cors');
 
 
 mongoose.connect('mongodb://arnif.me:28017/kodemon'); // connect to our database
@@ -13,6 +14,7 @@ elasticconf.setClient();
 var client = elasticconf.getClient();
 
 var app = express();
+app.use(cors());
 require('./lib/routes')(app);
 
 var port = process.env.PORT || 8080;
@@ -31,7 +33,7 @@ server.on("message", function(msg, rinfo){
 
   client.create({
     index: 'kodemon',
-    type: 'messages',
+    type: 'message',
     body: {
       execution_time: json.execution_time,
       timestamp: new Date(json.timestamp * 1000),
