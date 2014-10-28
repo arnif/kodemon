@@ -2,15 +2,19 @@ var dgram = require("dgram"),
     server = dgram.createSocket("udp4"),
     mongoose   = require('mongoose'),
     Msg = require('./models/messages'),
-    elasticsearch = require('elasticsearch');
+    elasticsearch = require('elasticsearch'),
+    express = require('express'),
+    elasticconf = require('./conf/elasticconf');
 
 
 mongoose.connect('mongodb://localhost/kodemon'); // connect to our database
 
-var client = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace'
-});
+var client = elasticconf.client();
+
+var app = express();
+require('./lib/routes')(app);
+
+var port = process.env.PORT || 8080;
 
 server.on("message", function(msg, rinfo){
   console.log('got message from client: ' + msg);
@@ -23,7 +27,6 @@ server.on("message", function(msg, rinfo){
   message.timestamp = new Date(json.timestamp * 1000);
   message.token = json.token;
   message.key = json.key;
-
 
   client.create({
     index: 'kodemon',
@@ -58,7 +61,11 @@ server.on('listening', function(){
   console.log('hostname: ' + server.address().address);
   console.log('port: ' + server.address().port);
 
+  app.listen(port);
+  console.log('API is on port ' + port);
 
 });
 
+
 server.bind(4000);
+exports = module.exports = app;
