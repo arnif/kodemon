@@ -32,7 +32,15 @@ angular.module('kodemonViewApp')
         var deferred = $q.defer();
         $http.get('http://localhost:8080/api/key/' + name).success(function(response) {
           deferred.resolve(response);
-          console.log('response: ' + response);
+        }).error(function() {
+          deferred.reject();
+        });
+        return deferred.promise;
+      },
+      getKeyByDate: function(from, to, name) {
+        var deferred = $q.defer();
+        $http.get('http://localhost:8080/api/key/' + name + '/' + from + '/' + to).success(function(response) {
+          deferred.resolve(response);
         }).error(function() {
           deferred.reject();
         });
