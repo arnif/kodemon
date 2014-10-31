@@ -31,6 +31,16 @@ server.on("message", function(msg, rinfo){
   message.token = json.token;
   message.key = json.key;
 
+  message.save(function(err) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      console.log('created');
+    });
+
+
   client.create({
     index: 'kodemon',
     type: 'message',
@@ -45,14 +55,6 @@ server.on("message", function(msg, rinfo){
       console.log(error);
       return;
     }
-    message.save(function(err) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-
-        console.log('created');
-      });
   });
 
 

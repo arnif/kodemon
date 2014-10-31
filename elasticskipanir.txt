@@ -1,0 +1,108 @@
+curl -X POST http://arnif.ninja:9200/kodemon/execution/_mapping?pretty=true -d '
+{
+    "execution": {
+        "properties": {
+            "key": {
+                "type": "string",
+                "index": "not_analyzed"
+            },
+            "token": {
+                "type": "string",
+                "index": "not_analyzed"
+            }
+        }
+    }
+}'
+
+
+
+curl -XPUT 'http://arnif.ninja:9200/kodemon/_mapping/message' -d '
+{
+    "message" : {
+        "properties" : {
+            "key" : {"type" : "string", "store" : true }
+        }
+    }
+}'
+
+
+curl -XGET 'http://arnif.ninja:9200/kodemon/_mapping/key'
+
+
+curl -XPOST "http://arnif.ninja:9200/kodemon/_search?pretty=1" -d'
+{
+   "size": 0,
+   "aggregations": {
+      "key_list": {
+         "terms": {
+            "field": "key"
+         }
+      }
+   }
+}'
+
+curl -XDELETE 'http://arnif.ninja:9200/kodemon/'
+curl -XPUT 'http://arnif.ninja:9200/kodemon/'
+
+
+
+curl -XPOST "http://batman.wtf:9200/kodemon/_search?pretty=1" -d '
+{
+  "query":{
+        "query_string": {
+                 "query": "weather_nopi.py-getTemp"
+             }
+         }
+     }'
+
+
+
+curl -XPUT batman.wtf:9200/kodemon -d '{
+    "mappings": {
+        "message": {
+            "_timestamp": {
+                "enabled": "true"
+            },
+            "properties": {
+                "execution_time": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "date"
+                },
+                "token": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "key": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    }
+}
+'
+
+
+
+curl -X GET 'http://batman.wtf:9200/kodemon/message/_search?pretty' -d '{
+    "query": {
+        "filtered": {
+            "query": {
+                "query_string": {
+                         "query": "weather_nopi.py-getTemp"
+                     }
+            },
+            "filter": {
+                "range": {
+                    "timestamp": {
+                        "gte": "2014-10-31T11:14:50.000Z",
+                        "lt" : "2014-10-31T14:30:50.000Z"
+                    }
+                }
+            }
+        }
+    }
+}
+'

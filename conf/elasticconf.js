@@ -5,7 +5,7 @@ var elastic;
 module.exports = {
   setClient: function() {
     elastic = new elasticsearch.Client({
-      host: 'arnif.ninja:9200',
+      host: 'arnif.ninja:9100',
       log: 'trace'
     });
   },
