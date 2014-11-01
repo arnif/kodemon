@@ -21,5 +21,9 @@ angular.module('kodemonViewApp')
       console.log(data);
       $scope.keyList = data;
     });
-    
+
+    $scope.setCount = function(count) {
+      KodemonFactory.setExecCount(count);
+    };
+
   });

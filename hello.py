@@ -4,5 +4,5 @@ from kodemon import kodemon
 def main():
 	for x in range(0,100):
 		print x
-for x in range(0,300):
+for x in range(0,200):
 	main()

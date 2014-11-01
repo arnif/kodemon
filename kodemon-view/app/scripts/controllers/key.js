@@ -14,15 +14,19 @@ angular.module('kodemonViewApp')
       'AngularJS',
       'Karma'
     ];
+    console.log($routeParams);
+
+    $scope.currentFrom = $routeParams.from ? parseInt($routeParams.from) : 0;
+    $scope.currentSize = $routeParams.size ? parseInt($routeParams.size) : 100;
 
     $scope.name = $routeParams.name;
-    console.log($scope.name);
 
+    $scope.countLimit = KodemonFactory.getExecCount();
+    console.log($scope.countLimit);
 
-      KodemonFactory.getKey($scope.name).then(function(data) {
+      KodemonFactory.getKey($scope.name, $scope.currentSize, $scope.currentFrom).then(function(data) {
         console.log(data);
-
-        $scope.key = data;
+        setData(data);
       });
 
       $scope.from = undefined;
@@ -43,12 +47,16 @@ angular.module('kodemonViewApp')
           console.log('GET');
           KodemonFactory.getKeyByDate($scope.from, $scope.to, $scope.name).then(function(data) {
             console.log(data);
-            $scope.key = data;
+            setData(data);
           });
 
         }
       };
 
-
+  function setData(data) {
+    $scope.key = data;
+    $scope.currentFrom += data.length;
+    console.log($scope.currentFrom);
+  }
 
   });

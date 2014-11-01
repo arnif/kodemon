@@ -13,11 +13,18 @@ angular.module('kodemonViewApp')
     // ...
 
     var meaningOfLife = 42;
+    var execount = 0;
 
     // Public API here
     return {
       someMethod: function () {
         return meaningOfLife;
+      },
+      setExecCount: function(count) {
+        execount = count;
+      },
+      getExecCount: function() {
+        return execount;
       },
       getList: function() {
         var deferred = $q.defer();
@@ -28,9 +35,9 @@ angular.module('kodemonViewApp')
         });
           return deferred.promise;
       },
-      getKey: function(name) {
+      getKey: function(name, size, from) {
         var deferred = $q.defer();
-        $http.get('http://localhost:8080/api/key/' + name).success(function(response) {
+        $http.get('http://localhost:8080/api/key/' + name +'?size=' + size + '&from=' + from).success(function(response) {
           deferred.resolve(response);
         }).error(function() {
           deferred.reject();

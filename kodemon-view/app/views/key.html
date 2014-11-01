@@ -1,55 +1,68 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
 
-<div class="dropdown">
+  <div class="dropdown">
     <a class="dropdown-toggle my-from-select" id="from" role="button" data-toggle="dropdown" data-target="#" href="">
-        <div class="input-append"><input type="text" class="input-large" data-ng-model="data.from"><span class="add-on"><i
-                class="icon-calendar"></i></span>
-        </div>
+      <div class="input-append"><input type="text" class="input-large" data-ng-model="data.from"><span class="add-on"><i
+        class="icon-calendar"></i></span>
+      </div>
     </a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="from">
-        <datetimepicker data-ng-model="data.from"
-                        data-datetimepicker-config="{ dropdownSelector: '.my-from-select' }"
-                        data-on-set-time="onFromSet(newDate)"></datetimepicker>
+      <datetimepicker data-ng-model="data.from"
+      data-datetimepicker-config="{ dropdownSelector: '.my-from-select' }"
+      data-on-set-time="onFromSet(newDate)"></datetimepicker>
     </ul>
-</div>
+  </div>
 
 
 
-<div class="dropdown">
+  <div class="dropdown">
     <a class="dropdown-toggle my-to-select" id="to" role="button" data-toggle="dropdown" data-target="#" href="">
-        <div class="input-append"><input type="text" class="input-large" data-ng-model="data.to"><span class="add-on"><i
-                class="icon-calendar"></i></span>
-        </div>
+      <div class="input-append"><input type="text" class="input-large" data-ng-model="data.to"><span class="add-on"><i
+        class="icon-calendar"></i></span>
+      </div>
     </a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="to">
-        <datetimepicker data-ng-model="data.to"
-                        data-datetimepicker-config="{ dropdownSelector: '.my-to-select' }"
-                        data-on-set-time="onToSet(newDate)"></datetimepicker>
+      <datetimepicker data-ng-model="data.to"
+      data-datetimepicker-config="{ dropdownSelector: '.my-to-select' }"
+      data-on-set-time="onToSet(newDate)"></datetimepicker>
     </ul>
-</div>
+  </div>
 
-<button ng-click="search()" class="btn btn-primary btn-lg">Search</button>
+  <button ng-click="search()" class="btn btn-primary btn-lg">Search</button>
 
   <div class="panel-heading">{{name}}</div>
 
   <!-- Table -->
-    <!-- Table -->
+  <!-- Table -->
   <table class="table table-striped table-hover ">
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Execution time</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="k in key">
-                    <td> {{k.token}} </td>
-                    <td> {{k.execution_time}}</td>
-                    <td> {{k.timestamp | date : 'medium'}}</td>
-                  </tr>
-                </tbody>
-              </table>
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Execution time</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="k in key">
+        <td> {{k.token}} </td>
+        <td> {{k.execution_time}}</td>
+        <td> {{k.timestamp | date : 'medium'}}</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div>
+
+<nav>
+  <ul class="pager">
+    <li
+    ng-class="currentFrom <= 100 ? 'previous disabled' : 'previous'">
+      <a href="#/key/{{name}}?size={{currentSize}}&from={{currentFrom - currentSize * 2}}">&larr; Previous</a>
+    </li>
+    <li
+    ng-class="currentFrom >= countLimit ? 'next disabled' : 'next'">
+      <a href="#/key/{{name}}?size={{currentSize}}&from={{currentFrom}}">Next &rarr;</a>
+      </li>
+  </ul>
+</nav>
