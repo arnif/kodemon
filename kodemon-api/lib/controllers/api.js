@@ -18,7 +18,6 @@ exports.getKeys = function(req, res) {
           key_list: {
             terms: {
               field: 'key'
-
             }
           }
         }
@@ -53,11 +52,15 @@ exports.getKey = function(req, res) {
     from: from,
     size: size,
     body: {
-      query: {
-        query_string: {
-          query: req.params.name
+      query : {
+        filtered : {
+            filter : {
+                term : {
+                    key : req.params.key
+                }
+            }
         }
-      }
+    }
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;
@@ -79,8 +82,6 @@ exports.getKey = function(req, res) {
 };
 
 exports.getKeyAtDate = function(req, res) {
-
-
 
   client.search({
     index: 'kodemon',
