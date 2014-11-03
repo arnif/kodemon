@@ -40,7 +40,6 @@ server.on("message", function(msg, rinfo){
       console.log('created');
     });
 
-
   client.create({
     index: 'kodemon',
     type: 'message',
@@ -56,8 +55,6 @@ server.on("message", function(msg, rinfo){
       return;
     }
   });
-
-
 
 });
 

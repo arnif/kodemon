@@ -52,19 +52,15 @@ exports.getKey = function(req, res) {
     from: from,
     size: size,
     body: {
-      query : {
-        filtered : {
-            filter : {
-                term : {
-                    key : req.params.key
-                }
-            }
+      query: {
+        query_string: {
+          query: req.params.name
         }
-    }
+      }
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;
-    //console.log(hits);
+    console.log(hits);
     var skil = [];
     for (var i = 0; i < hits.length; i++) {
       skil.push(hits[i]._source);
@@ -72,6 +68,7 @@ exports.getKey = function(req, res) {
     //console.log(skil);
     return res.send(skil);
   }, function (err1) {
+    console.log(err1);
     return Messages.find({'key': req.params.name }, function(err, keys) {
       if (err) {
           return res.send(err);
