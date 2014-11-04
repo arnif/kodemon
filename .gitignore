@@ -3,3 +3,4 @@ bower_components
 kodemon-view/node_modules
 kodemon-view/bower_components
 .DS_store
+*.log

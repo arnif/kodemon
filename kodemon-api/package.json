@@ -6,6 +6,8 @@
     "elasticsearch": "^2.4.3",
     "express": "~4.0.0",
     "mongoose": "~3.6.13",
-    "cors": ""
+    "cors": "",
+    "q": "",
+    "winston": ""
   }
 }

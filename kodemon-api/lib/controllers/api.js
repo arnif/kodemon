@@ -23,10 +23,11 @@ exports.getKeys = function(req, res) {
         }
       }
     },function(err, response) {
-      console.log(err);
-      console.log(response);
       if (err) {
-        return Messages.aggregate([ { $group: { _id : '$key', doc_count: { $sum: 1}}}], function(err, msg) {
+        //{ $group: { _id : '$key', doc_count: { $sum: 1}}}
+        return Messages.aggregate([
+            { $group: { _id : '$key', doc_count: { $sum: 1}}}
+          ], function(err, msg) {
           if (err) {
             return res.send(err);
           } else {
@@ -36,14 +37,10 @@ exports.getKeys = function(req, res) {
       }
       return res.json(response.aggregations.key_list.buckets);
     });
-
-
-
 };
 
 
 exports.getKey = function(req, res) {
-  console.log(req.query);
   var size = req.query.size ? req.query.size : 100,
       from = req.query.from ? req.query.from : 0;
 
@@ -60,15 +57,12 @@ exports.getKey = function(req, res) {
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;
-    console.log(hits);
     var skil = [];
     for (var i = 0; i < hits.length; i++) {
       skil.push(hits[i]._source);
     }
-    //console.log(skil);
     return res.send(skil);
   }, function (err1) {
-    console.log(err1);
     return Messages.find({'key': req.params.name }, function(err, keys) {
       if (err) {
           return res.send(err);
@@ -104,7 +98,6 @@ exports.getKeyAtDate = function(req, res) {
     }
   }, function(err, response) {
     if (err) {
-      console.log(err);
       return Messages.find({ 'key': req.params.name ,'timestamp': {"$gte": new Date(req.params.from), "$lt": new Date(req.params.to)}}, function(err, keys) {
         if (err) {
           return res.send(err);
@@ -114,16 +107,10 @@ exports.getKeyAtDate = function(req, res) {
     }
 
     var hits = response.hits.hits;
-    //console.log(hits);
     var skil = [];
     for (var i = 0; i < hits.length; i++) {
       skil.push(hits[i]._source);
     }
-    //console.log(skil);
     return res.send(skil);
   });
-
-
-
-
 };

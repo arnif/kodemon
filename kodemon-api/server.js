@@ -5,13 +5,27 @@ var dgram = require("dgram"),
     elasticsearch = require('elasticsearch'),
     express = require('express'),
     elasticconf = require('./conf/elasticconf'),
-    cors = require('cors');
+    cors = require('cors')
+    winston = require('winston');
 
 
-mongoose.connect('mongodb://arnif.me:28017/kodemon'); // connect to our database
+mongoose.connect('mongodb://batman.wtf:28017/kodemon'); // connect to our database
+
+winston.add(winston.transports.File, { filename: 'log-server.log' });
 
 elasticconf.setClient();
 var client = elasticconf.getClient();
+
+elasticconf.checkMapping().then(function(response) {
+  if (!response.mapExists) {
+    winston.error('Map does not exist,' +
+    ' are you sure ElasticSearch is running ? I will continue ' +
+    ' but content is only added to mongoDB, please run reindex.js to ' +
+    ' resolve any issues with ElasticSearch');
+  } else {
+    winston.info('Map exists, all is good, enjoy');
+  }
+});
 
 var app = express();
 app.use(cors());
@@ -33,39 +47,35 @@ server.on("message", function(msg, rinfo){
 
   message.save(function(err) {
       if (err) {
-        console.log(err);
-        return;
+        throw err;
       }
-
-      console.log('created');
+      winston.log('info', 'Done adding to database', json);
     });
 
-  client.create({
-    index: 'kodemon',
-    type: 'message',
-    body: {
-      execution_time: json.execution_time,
-      timestamp: new Date(json.timestamp * 1000),
-      token: json.token,
-      key: json.key,
+  var body = {
+    execution_time: json.execution_time,
+    timestamp: new Date(json.timestamp * 1000),
+    token: json.token,
+    key: json.key,
+  }
+
+  elasticconf.insertIntoElastic(body).then(function(response) {
+    if (response.created) {
+      winston.log('info', 'Done adding to ElasticSearch', body);
     }
-  }, function (error, response) {
-    if (error) {
-      console.log(error);
-      return;
-    }
+  }).fail(function(reson) {
+    winston.error('info', 'Failed to add to ElasticSearch', reson);
   });
 
 });
 
 server.on('listening', function(){
-  console.log('Kodemon server listening on')
-  console.log('hostname: ' + server.address().address);
-  console.log('port: ' + server.address().port);
+  winston.info('Kodemon server listening on');
+  winston.info('hostname: ' + server.address().address);
+  winston.info('port: ' + server.address().port);
 
   app.listen(port);
-  console.log('API is on port ' + port);
-
+  winston.info('API is on port ' + port);
 });
 
 
