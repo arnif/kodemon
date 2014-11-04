@@ -3,6 +3,7 @@ kodemon-api
 
     cd kodemon-api
     npm install
+    node reindex.js
     node server.js
 
 
@@ -10,4 +11,3 @@ kodemon-api
     npm install
     bower install
     grunt serve
-
