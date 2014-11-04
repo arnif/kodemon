@@ -11,7 +11,7 @@ var mongoSize = 0;
 
 winston.add(winston.transports.File, { filename: 'log-reindex.log' });
 
-mongoose.connect('mongodb://batman.wtf:28017/kodemon');
+mongoose.connect('mongodb://localhost/kodemon');
 
 function startIndexing() {
   var elasticSize = 0;
@@ -19,7 +19,7 @@ function startIndexing() {
   Messages.find({}, function(err, response) {
     if (!err) {
       if (response.length <= 0) {
-        winston.info('Database empty, but thats okey');
+        winston.info('Database empty, but thats okey, the map is created so your ready to go!');
         process.exit(0);
       }
       mongoSize = response.length;

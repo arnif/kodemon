@@ -9,10 +9,20 @@
                 <tbody>
                   <tr ng-repeat="l in keyList">
                     <td>
-                      <a href="#/key/{{l.key}}" ng-click="setCount(l.doc_count)">{{l.key}}</a>
+                      <a ng-if="l._id"
+                      href="#/key/{{l._id}}"
+                      ng-click="setCount(l.doc_count)">
+                        {{l._id}}
+                      </a>
+                      <a ng-if="l.key" href="#/key/{{l.key}}" ng-click="setCount(l.doc_count)">{{l.key}}</a>
                     </td>
                     <td>
-                      <a href="#/key/{{l.key}}" ng-click="setCount(l.doc_count)">{{l.doc_count}}</a>
+                      <a ng-if="l._id"
+                      href="#/key/{{l._id}}"
+                      ng-click="setCount(l.doc_count)">
+                        {{l.doc_count}}
+                      </a>
+                      <a ng-if="l.key" href="#/key/{{l.key}}" ng-click="setCount(l.doc_count)">{{l.doc_count}}</a>
                     </td>
                   </tr>
                 </tbody>

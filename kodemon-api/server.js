@@ -9,7 +9,7 @@ var dgram = require("dgram"),
     winston = require('winston');
 
 
-mongoose.connect('mongodb://batman.wtf:28017/kodemon'); // connect to our database
+mongoose.connect('mongodb://localhost/kodemon'); // connect to our database
 
 winston.add(winston.transports.File, { filename: 'log-server.log' });
 
@@ -20,7 +20,7 @@ elasticconf.checkMapping().then(function(response) {
   if (!response.mapExists) {
     winston.error('Map does not exist,' +
     ' are you sure ElasticSearch is running ? I will continue ' +
-    ' but content is only added to mongoDB, please run reindex.js to ' +
+    ' but content is only added to MongoDB and sent from MongoDB, please run reindex.js to ' +
     ' resolve any issues with ElasticSearch');
   } else {
     winston.info('Map exists, all is good, enjoy');
@@ -59,15 +59,22 @@ server.on("message", function(msg, rinfo){
     key: json.key,
   }
 
-  elasticconf.insertIntoElastic(body).then(function(response) {
-    if (response.created) {
-      winston.log('info', 'Done adding to ElasticSearch', body);
-    }
-  }).fail(function(reson) {
-    winston.error('info', 'Failed to add to ElasticSearch', reson);
-  });
-
+elasticconf.checkMapping().then(function(response) {
+  if (response.mapExists) {
+    elasticconf.insertIntoElastic(body).then(function(response) {
+      if (response.created) {
+        winston.log('info', 'Done adding to ElasticSearch', body);
+      }
+    }).fail(function(reson) {
+      winston.error('info', 'Failed to add to ElasticSearch', reson);
+    });
+  } else {
+    winston.info('Map does not exist, only added to MongoDB');
+  }
 });
+
+
+}); //server
 
 server.on('listening', function(){
   winston.info('Kodemon server listening on');

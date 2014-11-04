@@ -17,7 +17,7 @@ var map = {
 module.exports = {
   setClient: function() {
     elastic = new elasticsearch.Client({
-      host: 'batman.wtf:9200',
+      host: 'localhost:9200',
       debug: true
     });
     return elastic;
