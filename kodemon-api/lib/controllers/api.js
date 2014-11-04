@@ -51,7 +51,7 @@ exports.getKeys = function(req, res) {
 
 exports.getKey = function(req, res) {
   var size = req.query.size ? req.query.size : 100,
-      from = req.query.from ? req.query.from : 0;
+      from = req.query.from > 0 ? req.query.from : 0;
 
   client.search({
     index: 'kodemon',

@@ -41,7 +41,7 @@ curl -XPOST "http://arnif.ninja:9200/kodemon/_search?pretty=1" -d'
    }
 }'
 
-curl -XDELETE 'http://batman.wtf:9200/kodemon/'
+curl -XDELETE 'http://localhost:9200/kodemon/'
 curl -XPUT 'http://batman.wtf:9200/kodemon/'
 
 

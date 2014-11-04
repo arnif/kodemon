@@ -16,7 +16,7 @@ angular.module('kodemonViewApp')
     ];
     console.log($routeParams);
 
-    $scope.currentFrom = $routeParams.from ? parseInt($routeParams.from) : 0;
+    $scope.currentFrom = $routeParams.from >= 0 ? parseInt($routeParams.from) : 0;
     $scope.currentSize = $routeParams.size ? parseInt($routeParams.size) : 100;
 
     $scope.name = $routeParams.name;
@@ -55,7 +55,11 @@ angular.module('kodemonViewApp')
 
   function setData(data) {
     $scope.key = data;
-    $scope.currentFrom += data.length;
+    if ($scope.currentFrom >= 0) {
+        $scope.currentFrom += data.length;
+    } else {
+      $scope.currentFrom = 0;
+    }
     console.log($scope.currentFrom);
   }
 
