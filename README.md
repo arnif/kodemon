@@ -7,6 +7,7 @@ Install ElasticSearch (http://www.elasticsearch.org/guide/en/elasticsearch/guide
 make sure ElasticSearch and mongod are running on localhost.
 
 If you wish to use the kodemon decorator please run
+
     pip install git+https://github.com/hlysig/kodemon-python
 
 and in your python program add 'from kodemon import kodemon'
