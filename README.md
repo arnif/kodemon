@@ -13,9 +13,9 @@ If you wish to use the kodemon decorator please run
 and in your python program add 'from kodemon import kodemon'
 then you can use the @kodemon decorator above the function you wish to monitor.
 
-Last but not least run these commands from this repostory to use the server and API, in addition we've provided a simple view to see the data.
+Last but not least clone this repo and run these commands to use the server and API, in addition we've provided a simple view to see the data.
 
-API + SERVER
+SERVER + API
 =========
     cd kodemon-api
     npm install
