@@ -1,4 +1,4 @@
-kodemon-api
+Kodemon
 ===========
 Install mongodb (http://docs.mongodb.org/manual/installation/)
 
