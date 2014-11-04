@@ -23,7 +23,7 @@ function startIndexing() {
         process.exit(0);
       }
       mongoSize = response.length;
-      winston.info('Adding ' + response.length + ' to ElasticSearch');
+      winston.info('Adding ' + response.length + ' fields to ElasticSearch');
       for (var i = 0; i < response.length; i++) {
 
         var body = {
